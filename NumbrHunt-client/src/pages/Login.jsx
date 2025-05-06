@@ -103,7 +103,7 @@ export default function Login() {
               </div>
 
               <div className="text-center text-gray-600">
-                Not a member? <a href="SignUp" className="font-medium text-indigo-600 hover:text-indigo-500">Sign up</a>
+                Not a member? <a href="/signup" className="font-medium text-indigo-600 hover:text-indigo-500">Sign up</a>
               </div>
             </form>
           </div>
