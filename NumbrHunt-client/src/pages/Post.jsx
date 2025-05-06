@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import { getAllScores } from '../actions/Score.action';
 import ScoreCard from '../components/ScoreCard';
 
@@ -26,7 +27,7 @@ export default function Post() {
             <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 py-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-3xl mx-auto">
                     <h1 className="text-3xl font-bold text-center text-white mb-10">Leaderboard</h1>
-                    
+
                     <div className="space-y-6">
                         {scores.length === 0 ? (
                             <div className="bg-white rounded-xl shadow-md p-6 text-center">
@@ -48,6 +49,7 @@ export default function Post() {
                     </div>
                 </div>
             </div>
+            <Footer />
         </>
     );
 }

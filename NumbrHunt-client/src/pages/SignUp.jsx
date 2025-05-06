@@ -58,44 +58,44 @@ export default function SignUp() {
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500">
                     <i className="fas fa-user"></i>
                   </div>
-                  <input 
-                    name="username" 
-                    type="text" 
-                    onChange={change} 
-                    value={formData.username} 
-                    placeholder="Username" 
+                  <input
+                    name="username"
+                    type="text"
+                    onChange={change}
+                    value={formData.username}
+                    placeholder="Username"
                     required
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" 
+                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
               </div>
-              
+
               <div>
                 <div className="relative rounded-md shadow-sm">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-500">
                     <i className="fas fa-lock"></i>
                   </div>
-                  <input 
-                    name="password" 
-                    type="password" 
-                    onChange={change} 
-                    value={formData.password} 
-                    placeholder="Password" 
+                  <input
+                    name="password"
+                    type="password"
+                    onChange={change}
+                    value={formData.password}
+                    placeholder="Password"
                     required
-                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" 
+                    className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                   />
                 </div>
               </div>
-              
+
               <div>
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   Register
                 </button>
               </div>
-              
+
               <div className="text-center text-gray-600">
                 Already have an account? <a href="/" className="font-medium text-indigo-600 hover:text-indigo-500">Login</a>
               </div>

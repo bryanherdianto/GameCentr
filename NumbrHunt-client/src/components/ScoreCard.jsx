@@ -36,27 +36,27 @@ export default function ScoreCard({ score_id, username, score, text, comments })
             Score: {score}
           </span>
         </div>
-        
+
         <p className="text-gray-600 mb-4">{text}</p>
-        
+
         <div className="mt-6 border-t border-gray-100 pt-4">
           <div className="flex space-x-2">
-            <input 
-              type="text" 
-              placeholder="Add a comment" 
-              value={commentText} 
-              onChange={(e) => setCommentText(e.target.value)} 
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            <input
+              type="text"
+              placeholder="Add a comment"
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm p-2"
             />
-            <button 
-              onClick={postComment} 
+            <button
+              onClick={postComment}
               className="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
             >
               Comment
             </button>
           </div>
         </div>
-        
+
         {comments && comments.length > 0 && (
           <div className="mt-4 space-y-3 pt-3">
             <h3 className="text-sm font-medium text-gray-500">Comments</h3>

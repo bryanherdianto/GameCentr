@@ -16,21 +16,21 @@ export default function Navbar() {
                     <div className="flex items-center">
                         <span className="text-white text-xl font-bold mr-8">NumbrHunt</span>
                         <div className="hidden md:flex space-x-4">
-                            <NavLink 
-                                to="/game" 
-                                className={({isActive}) => 
-                                    isActive 
-                                        ? "px-3 py-2 rounded-md text-sm font-medium bg-indigo-900 text-white" 
+                            <NavLink
+                                to="/game"
+                                className={({ isActive }) =>
+                                    isActive
+                                        ? "px-3 py-2 rounded-md text-sm font-medium bg-indigo-900 text-white"
                                         : "px-3 py-2 rounded-md text-sm font-medium text-indigo-200 hover:bg-indigo-700 hover:text-white"
                                 }
                             >
                                 Play
                             </NavLink>
-                            <NavLink 
-                                to="/post" 
-                                className={({isActive}) => 
-                                    isActive 
-                                        ? "px-3 py-2 rounded-md text-sm font-medium bg-indigo-900 text-white" 
+                            <NavLink
+                                to="/post"
+                                className={({ isActive }) =>
+                                    isActive
+                                        ? "px-3 py-2 rounded-md text-sm font-medium bg-indigo-900 text-white"
                                         : "px-3 py-2 rounded-md text-sm font-medium text-indigo-200 hover:bg-indigo-700 hover:text-white"
                                 }
                             >
@@ -40,8 +40,8 @@ export default function Navbar() {
                     </div>
                     <div className="flex items-center">
                         <span className="text-indigo-200 mr-4">{cookies.username}</span>
-                        <NavLink 
-                            to="/" 
+                        <NavLink
+                            to="/"
                             onClick={handleLogout}
                             className="px-3 py-2 rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700"
                         >

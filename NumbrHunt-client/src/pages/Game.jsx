@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 import { createScorePost } from "../actions/Score.action";
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 export default function Game() {
   const inputRef = useRef(null);
@@ -169,6 +170,7 @@ export default function Game() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

@@ -12,10 +12,10 @@ const baseApiResponse = (data, isSuccess) => {
 // post score
 export const createScorePost = async (input) => {
     try {
-        const response = await axios.post (
+        const response = await axios.post(
             `${backend_URI}/score`, input
         );
-  
+
         console.log("Response from Backend");
         console.log(response.data);
         return baseApiResponse(response.data.data, true);
@@ -28,10 +28,10 @@ export const createScorePost = async (input) => {
 // get all scores
 export const getAllScores = async () => {
     try {
-        const response = await axios.get (
+        const response = await axios.get(
             `${backend_URI}/score`
         );
-  
+
         console.log("Response from Backend");
         console.log(response.data);
         return baseApiResponse(response.data.data, true);
@@ -44,10 +44,10 @@ export const getAllScores = async () => {
 // add comment to score post
 export const addComment = async (input) => {
     try {
-        const response = await axios.post (
+        const response = await axios.post(
             `${backend_URI}/score/addComment`, input
         );
-  
+
         console.log("Response from Backend");
         console.log(response.data);
         return baseApiResponse(response.data.data, true);

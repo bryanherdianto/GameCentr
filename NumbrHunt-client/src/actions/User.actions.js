@@ -24,8 +24,8 @@ export const loginUser = async (input) => {
     return baseApiResponse(null, false);
   }
 };
-  
-  
+
+
 // sign up
 export const signUpUser = async (input) => {
   try {
