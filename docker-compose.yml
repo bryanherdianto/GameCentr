@@ -1,0 +1,16 @@
+services:
+  backend:
+    build: ./NumbrHunt-server
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./NumbrHunt-server/.env
+    depends_on:
+      - frontend
+      
+  frontend:
+    build: ./NumbrHunt-client
+    ports:
+      - "3000:80"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8080
