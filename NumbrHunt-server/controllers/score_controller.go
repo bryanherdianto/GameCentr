@@ -190,6 +190,7 @@ func PostScore(c *gin.Context) {
 
 	var scoreRequest struct {
 		Owner primitive.ObjectID `json:"owner" binding:"required"`
+		Game  string             `json:"game" binding:"required"`
 		Value int                `json:"value" binding:"required"`
 		Text  string             `json:"text"`
 	}
@@ -224,6 +225,7 @@ func PostScore(c *gin.Context) {
 	now := time.Now()
 	score := models.Score{
 		Owner:     scoreRequest.Owner,
+		Game:      scoreRequest.Game,
 		Value:     scoreRequest.Value,
 		Text:      scoreRequest.Text,
 		Comments:  []primitive.ObjectID{},
@@ -269,101 +271,93 @@ func PostScore(c *gin.Context) {
 	})
 }
 
-// AddCommentToScore adds a comment to a score
+// AddCommentToScore adds a comment to a score for a specific game
 func AddCommentToScore(c *gin.Context) {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
+    ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+    defer cancel()
 
-	var commentRequest struct {
-		Post   primitive.ObjectID `json:"post" binding:"required"`
-		Author primitive.ObjectID `json:"author" binding:"required"`
-		Text   string             `json:"text" binding:"required"`
-	}
+    game := c.Param("game")
+    scoreId := c.Param("scoreId")
+    objectId, err := primitive.ObjectIDFromHex(scoreId)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{"success": false, "message": "Invalid score ID"})
+        return
+    }
 
-	if err := c.ShouldBindJSON(&commentRequest); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"success": false,
-			"message": err.Error(),
-		})
-		return
-	}
+    var commentRequest struct {
+        Author primitive.ObjectID `json:"author" binding:"required"`
+        Text   string             `json:"text" binding:"required"`
+    }
 
-	// Check if user exists
-	var user models.User
-	err := db.UserColl.FindOne(ctx, bson.M{"_id": commentRequest.Author}).Decode(&user)
-	if err != nil {
-		if err == mongo.ErrNoDocuments {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"success": false,
-				"message": "User not found",
-			})
-			return
-		}
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"success": false,
-			"message": err.Error(),
-		})
-		return
-	}
+    if err := c.ShouldBindJSON(&commentRequest); err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{
+            "success": false,
+            "message": err.Error(),
+        })
+        return
+    }
 
-	// Check if score exists
-	var score models.Score
-	err = db.ScoreColl.FindOne(ctx, bson.M{"_id": commentRequest.Post}).Decode(&score)
-	if err != nil {
-		if err == mongo.ErrNoDocuments {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"success": false,
-				"message": "Post not found",
-			})
-			return
-		}
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"success": false,
-			"message": err.Error(),
-		})
-		return
-	}
+    // Check if user exists
+    var user models.User
+    err = db.UserColl.FindOne(ctx, bson.M{"_id": commentRequest.Author}).Decode(&user)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{
+            "success": false,
+            "message": "User not found",
+        })
+        return
+    }
 
-	// Create comment
-	now := time.Now()
-	comment := models.Comment{
-		Score:     commentRequest.Post,
-		Author:    commentRequest.Author,
-		Text:      commentRequest.Text,
-		CreatedAt: now,
-		UpdatedAt: now,
-	}
+    // Check if score exists and belongs to the correct game
+    var score models.Score
+    err = db.ScoreColl.FindOne(ctx, bson.M{"_id": objectId, "game": game}).Decode(&score)
+    if err != nil {
+        c.JSON(http.StatusBadRequest, gin.H{
+            "success": false,
+            "message": "Score not found for this game",
+        })
+        return
+    }
 
-	// Insert comment into database
-	result, err := db.CommentColl.InsertOne(ctx, comment)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"success": false,
-			"message": err.Error(),
-		})
-		return
-	}
+    // Create comment
+    now := time.Now()
+    comment := models.Comment{
+        Score:     objectId,
+        Author:    commentRequest.Author,
+        Text:      commentRequest.Text,
+        CreatedAt: now,
+        UpdatedAt: now,
+    }
 
-	// Get the inserted comment with ID
-	comment.ID = result.InsertedID.(primitive.ObjectID)
+    // Insert comment into database
+    result, err := db.CommentColl.InsertOne(ctx, comment)
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{
+            "success": false,
+            "message": err.Error(),
+        })
+        return
+    }
 
-	// Add comment to score comments array
-	_, err = db.ScoreColl.UpdateOne(
-		ctx,
-		bson.M{"_id": commentRequest.Post},
-		bson.M{"$push": bson.M{"comments": comment.ID}, "$set": bson.M{"updatedAt": now}},
-	)
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"success": false,
-			"message": err.Error(),
-		})
-		return
-	}
+    comment.ID = result.InsertedID.(primitive.ObjectID)
 
-	c.JSON(http.StatusOK, gin.H{
-		"success": true,
-		"message": "Successfully added comment",
-		"data":    comment,
-	})
+    // Add comment to score comments array
+    _, err = db.ScoreColl.UpdateOne(
+        ctx,
+        bson.M{"_id": objectId},
+        bson.M{"$push": bson.M{"comments": comment.ID}, "$set": bson.M{"updatedAt": now}},
+    )
+    if err != nil {
+        c.JSON(http.StatusInternalServerError, gin.H{
+            "success": false,
+            "message": err.Error(),
+        })
+        return
+    }
+
+    c.JSON(http.StatusOK, gin.H{
+        "success": true,
+        "message": "Successfully added comment",
+        "data":    comment,
+    })
 }

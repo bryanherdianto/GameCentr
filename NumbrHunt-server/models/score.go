@@ -6,10 +6,10 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
-// Score represents a user's game score
 type Score struct {
 	ID        primitive.ObjectID   `bson:"_id,omitempty" json:"_id,omitempty"`
 	Owner     primitive.ObjectID   `bson:"owner" json:"owner" binding:"required"`
+	Game      string               `bson:"game" json:"game" binding:"required"` // Tambahan
 	Value     int                  `bson:"value" json:"value" binding:"required"`
 	Text      string               `bson:"text" json:"text"`
 	Comments  []primitive.ObjectID `bson:"comments" json:"comments"`

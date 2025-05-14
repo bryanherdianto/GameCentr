@@ -4,6 +4,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import './PongGame.css'; // Import the CSS file for styling
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { useCookies } from 'react-cookie';
+import { createScorePost } from "../actions/Score.action";
 
 const PongGame = () => {
     const initialBallState = { x: 300, y: 200, speedX: 5, speedY: 5 };
@@ -15,6 +17,26 @@ const PongGame = () => {
     const ballRef = useRef(null);
     const leftPaddleRef = useRef(150);
     const rightPaddleRef = useRef(150);
+    const [bounces, setBounces] = useState(0);
+    const [cookies] = useCookies(["user_id"]);
+    const [scorePosted, setScorePosted] = useState(false);
+
+    useEffect(() => {
+        if (gameOver && !scorePosted) {
+        handleSubmitScore();
+        }
+        // eslint-disable-next-line
+    }, [gameOver]);
+
+    const handleSubmitScore = async () => {
+        await createScorePost({
+        value: bounces,
+        text: `Bounces: ${bounces}`,
+        owner: cookies.user_id,
+        game: "pong"
+        });
+        setScorePosted(true);
+    };
 
     useEffect(() => {
         if (gameRunning) {
@@ -77,6 +99,7 @@ const PongGame = () => {
                     ) {
                         prevBall.speedX = -prevBall.speedX;
                         newX += prevBall.speedX;
+                        setBounces((b) => b + 1);
                     }
 
                     // Wall bounce
@@ -105,6 +128,11 @@ const PongGame = () => {
         }
     }, [gameRunning, paddles]);
 
+    useEffect(() => {
+        if (gameOver) {
+            setBounces(0);
+        }
+    }, [gameOver]);
 
     const startGame = () => {
         setGameRunning(true);

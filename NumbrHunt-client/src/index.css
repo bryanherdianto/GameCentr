@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+/* Animated rainbow background for Color Guessing Game card */
+.rainbow-bg {
+  background: linear-gradient(270deg, #ff5e62, #ff9966, #f9d423, #a8e063, #43cea2, #38f9d7, #43e97b, #38f9d7, #43cea2, #a8e063, #f9d423, #ff9966, #ff5e62);
+  background-size: 2000% 2000%;
+  animation: rainbowMove 8s linear infinite;
+}
+
+@keyframes rainbowMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

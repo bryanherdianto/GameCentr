@@ -102,6 +102,7 @@ export default function GuessGame() {
       value: score,
       text: scoreText,
       owner: cookies.user_id,
+      game: "guess"
     })
       .then((response) => {
         if (response.data != null) {

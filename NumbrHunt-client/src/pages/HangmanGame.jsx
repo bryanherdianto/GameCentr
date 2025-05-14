@@ -1,10 +1,10 @@
-// HangmanGame.js
-
 import React, { useState, useEffect } from "react";
 import HangmanCanvas from "./HangmanCanvas";
-import "./HangmanGame.css"; // Import the additional CSS file
+import "./HangmanGame.css";
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { useCookies } from 'react-cookie';
+import { createScorePost } from "../actions/Score.action";
 
 const words = ["REACT", "JAVASCRIPT", "DEVELOPER", "HANGMAN", "COMPONENT"];
 
@@ -12,10 +12,20 @@ const HangmanGame = () => {
     const [word, setWord] = useState("");
     const [guessedLetters, setGuessedLetters] = useState([]);
     const [mistakes, setMistakes] = useState(0);
+    const [post, setPost] = useState(false);
+    const [scorePosted, setScorePosted] = useState(false);
+    const [cookies] = useCookies(["user_id"]);
 
     useEffect(() => {
         resetGame();
     }, []);
+
+    useEffect(() => {
+        if ((isGameWon() || isGameLost()) && !scorePosted) {
+            handleSubmitScore();
+        }
+        // eslint-disable-next-line
+    }, [guessedLetters, mistakes]);
 
     const chooseRandomWord = () => {
         const randomIndex = Math.floor(Math.random() * words.length);
@@ -45,6 +55,22 @@ const HangmanGame = () => {
         setWord(chooseRandomWord());
         setGuessedLetters([]);
         setMistakes(0);
+        setScorePosted(false);
+    };
+
+    // Tambahkan fungsi ini:
+    const handleSubmitScore = async () => {
+        if (!scorePosted && (isGameWon() || isGameLost())) {
+            const scoreValue = isGameWon() ? 100 : 0; // Atur sesuai logika skor
+            const scoreText = isGameWon() ? "Menang Hangman!" : "Kalah Hangman!";
+            await createScorePost({
+                value: scoreValue,
+                text: scoreText,
+                owner: cookies.user_id,
+                game: "hangman"
+            });
+            setScorePosted(true);
+        }
     };
 
     return (

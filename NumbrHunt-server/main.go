@@ -46,8 +46,11 @@ func main() {
 	})
 
 	// Setup routes
+    r := gin.Default()
+    routes.SetupGameScoreRoutes(r)
 	routes.SetupUserRoutes(router)
-	routes.SetupScoreRoutes(router)
+	// routes.SetupScoreRoutes(router)
+
 
 	// Get port from environment variable or use default
 	port := os.Getenv("PORT")

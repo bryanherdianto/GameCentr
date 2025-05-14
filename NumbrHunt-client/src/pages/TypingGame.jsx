@@ -6,6 +6,8 @@ import React, {
 import './TypingGame.css';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { useCookies } from 'react-cookie';
+import { createScorePost } from "../actions/Score.action";
 
 const sentences = [
     "The quick brown fox jumps over the lazy dog.",
@@ -27,6 +29,25 @@ const TypingGame = () => {
     const [time, setTime] = useState(60);
     const [isGameOver, setIsGameOver] = useState(false);
     const [isGameStarted, setIsGameStarted] = useState(false);
+    const [cookies] = useCookies(["user_id"]);
+    const [scorePosted, setScorePosted] = useState(false);
+
+    useEffect(() => {
+        if (isGameOver && !scorePosted) {
+        handleSubmitScore();
+        }
+        // eslint-disable-next-line
+    }, [isGameOver]);
+
+    const handleSubmitScore = async () => {
+        await createScorePost({
+        value: score,
+        text: `Typing Score: ${score}`,
+        owner: cookies.user_id,
+        game: "typing"
+        });
+        setScorePosted(true);
+    };
 
     useEffect(() => {
         if (isGameStarted) {
@@ -85,7 +106,10 @@ const TypingGame = () => {
                 )}
                 {isGameStarted && (
                     <>
+                        
                         <div className="timer">Time Left: {time}</div>
+                        <p>Type the sentence below:</p>
+                        <br></br>
                         <div className="sentence">{sentence}</div>
                         {!isGameOver && (
                             <div className="input-container">

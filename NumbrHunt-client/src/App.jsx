@@ -8,6 +8,12 @@ import Login from "./pages/Login";
 import Post from "./pages/Post";
 import PongGame from './pages/PongGame';
 import TypingGame from './pages/TypingGame';
+import SimonSays from './pages/SimonSays';
+import MemoryMatch from './pages/MemoryMatch';
+import WhackAMole from './pages/WhackAMole';
+import ColorGuess from './pages/ColorGuess';
+import PatternRepeater from './pages/PatternRepeater';
+import QuickMathChallenge from './pages/QuickMathChallenge';
 
 export default function App() {
   const [cookies] = useCookies(['isLoggedIn']);
@@ -23,6 +29,12 @@ export default function App() {
           <Route path="/game/hangman" element={cookies.isLoggedIn ? <HangmanGame /> : <Navigate to='/login' />} />
           <Route path="/game/pong" element={cookies.isLoggedIn ? <PongGame /> : <Navigate to='/login' />} />
           <Route path="/game/typing" element={cookies.isLoggedIn ? <TypingGame /> : <Navigate to='/login' />} />
+          <Route path="/game/simonsays" element={cookies.isLoggedIn ? <SimonSays /> : <Navigate to='/login' />} />
+          <Route path="/game/memorymatch" element={cookies.isLoggedIn ? <MemoryMatch /> : <Navigate to='/login' />} />
+          <Route path="/game/whackamole" element={cookies.isLoggedIn ? <WhackAMole /> : <Navigate to='/login' />} />
+          <Route path="/game/colorguess" element={cookies.isLoggedIn ? <ColorGuess /> : <Navigate to='/login' />} />
+          <Route path="/game/patternrepeater" element={cookies.isLoggedIn ? <PatternRepeater /> : <Navigate to='/login' />} />
+          <Route path="/game/quickmath" element={cookies.isLoggedIn ? <QuickMathChallenge /> : <Navigate to='/login' />} />
           <Route path="/post" element={cookies.isLoggedIn ? <Post /> : <Navigate to='/login' />} />
           <Route path="*" element={<Navigate to='/login' />} />
         </Routes>

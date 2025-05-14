@@ -3,16 +3,17 @@ import { useState } from 'react';
 import { addComment } from '../actions/Score.action';
 import { useCookies } from 'react-cookie';
 
-export default function ScoreCard({ score_id, username, score, text, comments }) {
+export default function ScoreCard({ score_id, username, score, text, comments, game }) {
   const [commentText, setCommentText] = useState("");
   const [cookies] = useCookies(["user_id"]);
 
   const postComment = () => {
     console.log(score_id);
     addComment({
-      text: commentText,
-      post: score_id,
+      game,
+      scoreId: score_id,
       author: cookies.user_id,
+      text: commentText,
     })
       .then((response) => {
         if (response.data != null) {
