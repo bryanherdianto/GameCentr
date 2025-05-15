@@ -1,5 +1,3 @@
-//App.js
-
 import React, { useState, useEffect, useRef } from 'react';
 import './PongGame.css'; // Import the CSS file for styling
 import Navbar from '../components/Navbar';
@@ -97,14 +95,39 @@ const PongGame = () => {
                             ballBox.top <= paddleRight.bottom &&
                             ballBox.bottom >= paddleRight.top)
                     ) {
-                        prevBall.speedX = -prevBall.speedX;
-                        newX += prevBall.speedX;
+                        // Increase both X and Y speeds for more challenge
+                        const speedIncrease = 1; // Adjust this value to control difficulty progression
+                        
+                        // Maintain direction but increase speed
+                        const directionX = prevBall.speedX > 0 ? 1 : -1;
+                        const directionY = prevBall.speedY > 0 ? 1 : -1;
+                        
+                        const newSpeedX = (Math.abs(prevBall.speedX) + speedIncrease) * -directionX; // Reverse X direction
+                        const newSpeedY = (Math.abs(prevBall.speedY) + speedIncrease) * directionY; // Keep Y direction
+                        
+                        prevBall.speedX = newSpeedX;
+                        prevBall.speedY = newSpeedY;
+                        
+                        newX += prevBall.speedX; // Apply new speed immediately
                         setBounces((b) => b + 1);
                     }
 
                     // Wall bounce
                     if (newY <= 0 || newY >= 380) {
-                        prevBall.speedY = -prevBall.speedY;
+                        // Increase both X and Y speeds for more challenge
+                        const speedIncrease = 1; // Adjust this value to control difficulty progression
+                        
+                        // Maintain X direction but increase speed
+                        const directionX = prevBall.speedX > 0 ? 1 : -1;
+                        const directionY = prevBall.speedY > 0 ? 1 : -1;
+                        
+                        // Increase X speed slightly
+                        prevBall.speedX = (Math.abs(prevBall.speedX) + speedIncrease) * directionX;
+                        
+                        // Reverse Y direction and increase speed
+                        prevBall.speedY = (Math.abs(prevBall.speedY) + speedIncrease) * -directionY;
+                        
+                        newY += prevBall.speedY; // Apply new speed immediately
                     }
 
                     // Game over

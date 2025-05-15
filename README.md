@@ -1,5 +1,3 @@
-# NumbrHunt
+# GameCentr
 
-Welcome to NumbrHunt! This is a fun and exciting random number guessing game.
-
-Test your luck and intuition to see if you can guess the secret number.
+Welcome to GameCentr! This is a fun and exciting game center. As a player, you can play various games. The game center is designed to be user-friendly and easy to navigate.

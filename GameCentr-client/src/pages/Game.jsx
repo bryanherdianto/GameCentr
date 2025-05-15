@@ -97,7 +97,7 @@ function Game() {
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center">
                         <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl md:text-6xl">
-                            Game Center
+                            GameCentr
                         </h1>
                         <p className="mt-3 max-w-md mx-auto text-lg text-gray-500 sm:text-xl md:max-w-3xl">
                             Choose from our selection of fun and challenging games!

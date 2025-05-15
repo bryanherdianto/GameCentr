@@ -138,7 +138,7 @@ export default function GuessGame() {
               />
               <button
                 onClick={handleCheck}
-                className={`inline-flex justify-center rounded-md border border-transparent px-6 py-3 text-lg font-medium text-white shadow-sm ${disabled ? 'bg-green-600 hover:bg-green-700' : 'bg-indigo-600 hover:bg-indigo-700'} focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
+                className={`inline-flex justify-center items-center rounded-md border border-transparent px-6 py-3 text-lg font-medium text-white shadow-sm ${disabled ? 'bg-green-600 hover:bg-green-700' : 'bg-indigo-600 hover:bg-indigo-700'} focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2`}
               >
                 {buttonText}
               </button>

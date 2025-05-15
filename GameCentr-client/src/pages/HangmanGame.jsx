@@ -101,7 +101,7 @@ const HangmanGame = () => {
                             }
                             disabled={guessedLetters.includes(
                                 String.fromCharCode(65 + index)
-                            )}
+                            ) || isGameWon() || isGameLost()}
                         >
                             {String.fromCharCode(65 + index)}
                         </button>

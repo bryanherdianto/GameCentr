@@ -34,17 +34,17 @@ const TypingGame = () => {
 
     useEffect(() => {
         if (isGameOver && !scorePosted) {
-        handleSubmitScore();
+            handleSubmitScore();
         }
         // eslint-disable-next-line
     }, [isGameOver]);
 
     const handleSubmitScore = async () => {
         await createScorePost({
-        value: score,
-        text: `Typing Score: ${score}`,
-        owner: cookies.user_id,
-        game: "typing"
+            value: score,
+            text: `Typing Score: ${score}`,
+            owner: cookies.user_id,
+            game: "typing"
         });
         setScorePosted(true);
     };
@@ -106,7 +106,6 @@ const TypingGame = () => {
                 )}
                 {isGameStarted && (
                     <>
-                        
                         <div className="timer">Time Left: {time}</div>
                         <p>Type the sentence below:</p>
                         <br></br>

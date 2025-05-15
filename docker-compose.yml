@@ -1,15 +1,15 @@
 services:
   backend:
-    build: ./NumbrHunt-server
+    build: ./GameCentr-server
     ports:
       - "8080:8080"
     env_file:
-      - ./NumbrHunt-server/.env
+      - ./GameCentr-server/.env
     depends_on:
       - frontend
       
   frontend:
-    build: ./NumbrHunt-client
+    build: ./GameCentr-client
     ports:
       - "3000:80"
     environment:

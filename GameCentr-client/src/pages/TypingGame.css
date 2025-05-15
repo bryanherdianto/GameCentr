@@ -62,15 +62,10 @@
 
 .game-over {
     font-size: 1.5rem;
-    color: #f44336;
     margin-bottom: 20px;
     transition: color 0.3s ease;
 }
 
 .game-over p {
     margin: 5px 0;
-}
-
-.game-over:hover {
-    color: #d32f2f;
 }

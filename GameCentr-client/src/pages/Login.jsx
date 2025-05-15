@@ -55,7 +55,7 @@ export default function Login() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-900 to-indigo-900 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full bg-white rounded-xl shadow-2xl overflow-hidden">
           <div className="px-8 pt-6">
-            <h2 className="text-center text-3xl font-bold tracking-tight text-indigo-700 mb-6">Login to NumbrHunt</h2>
+            <h2 className="text-center text-3xl font-bold tracking-tight text-indigo-700 mb-6">Login to GameCentr</h2>
           </div>
           <div className="px-8 pb-8">
             <form onSubmit={submitData} className="space-y-6">

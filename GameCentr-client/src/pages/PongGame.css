@@ -52,10 +52,10 @@ button {
 }
 
 .game-over {
-    background-color: red;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: red;
     height: 45vh;
+    font-weight: bold;
 }
