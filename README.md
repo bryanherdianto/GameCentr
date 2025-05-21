@@ -6,13 +6,13 @@ Welcome to GameCentr! This is a fun and exciting game center. As a player, you c
 React, Vite, Golang, MongoDB
 
 ## Local Architecture
-![local drawio](https://github.com/user-attachments/assets/f2725e33-d12d-4a4d-ba2d-100561bea6d1)
+![local drawio](https://github.com/user-attachments/assets/6e1f3cdd-e9cc-43df-ab5f-5532bc391d85)
 
 ## Remote Architecture
-![remote drawio](https://github.com/user-attachments/assets/d4ce173b-b74a-4ba2-870f-6b322c56948f)
+![remote drawio](https://github.com/user-attachments/assets/02f0a90c-ff99-44b4-bde6-6cba53c6e6eb)
 
 ## Docker Architecture
-![docker drawio](https://github.com/user-attachments/assets/e579faa1-9273-471a-8e23-c012b281880c)
+![docker drawio](https://github.com/user-attachments/assets/f6124063-c851-45cd-b52b-bf7b49c88a7c)
 
 ## Referensi
 - GeeksforGeeks, “Design a typing speed test game using JavaScript,” GeeksforGeeks, Jul. 29, 2024. https://www.geeksforgeeks.org/design-a-typing-speed-test-game-using-javascript/
