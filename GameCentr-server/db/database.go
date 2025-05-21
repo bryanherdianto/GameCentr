@@ -12,10 +12,13 @@ import (
 )
 
 var (
-	Client      *mongo.Client
-	UserColl    *mongo.Collection
-	ScoreColl   *mongo.Collection
-	CommentColl *mongo.Collection
+	Client              *mongo.Client
+	UserColl            *mongo.Collection
+	ScoreColl           *mongo.Collection
+	CommentColl         *mongo.Collection
+	GameTypeColl        *mongo.Collection
+	AchievementColl     *mongo.Collection
+	UserAchievementColl *mongo.Collection
 )
 
 // ConnectDB establishes connection to MongoDB and sets up collections
@@ -51,8 +54,29 @@ func ConnectDB() {
 	UserColl = Client.Database(dbName).Collection("users")
 	ScoreColl = Client.Database(dbName).Collection("scores")
 	CommentColl = Client.Database(dbName).Collection("comments")
+	GameTypeColl = Client.Database(dbName).Collection("game_types")
+	AchievementColl = Client.Database(dbName).Collection("achievements")
+	UserAchievementColl = Client.Database(dbName).Collection("user_achievements")
 
 	log.Println("Connected to MongoDB")
+	
+	// Initialize game types and create indexes
+	if err := InitGameTypes(client, dbName); err != nil {
+		log.Printf("Warning: Failed to initialize game types: %v", err)
+	}
+	
+	if err := InitGameScoreIndexes(client, dbName); err != nil {
+		log.Printf("Warning: Failed to create game score indexes: %v", err)
+	}
+	
+	// Initialize achievements and create indexes
+	if err := InitAchievements(client, dbName); err != nil {
+		log.Printf("Warning: Failed to initialize achievements: %v", err)
+	}
+	
+	if err := InitAchievementIndexes(client, dbName); err != nil {
+		log.Printf("Warning: Failed to create achievement indexes: %v", err)
+	}
 }
 
 // DisconnectDB closes the MongoDB connection

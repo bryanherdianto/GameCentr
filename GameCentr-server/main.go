@@ -46,9 +46,9 @@ func main() {
 	})
 
 	// Setup routes
-    r := gin.Default()
-    routes.SetupGameScoreRoutes(r)
+	routes.SetupGameScoreRoutes(router)
 	routes.SetupUserRoutes(router)
+	routes.SetupAchievementRoutes(router)
 	// routes.SetupScoreRoutes(router)
 
 

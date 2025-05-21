@@ -4,6 +4,7 @@ import { useCookies } from 'react-cookie';
 import { createScorePost } from "../actions/Score.action";
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { useAchievements } from '../context/AchievementContext';
 
 export default function GuessGame() {
   const inputRef = useRef(null);
@@ -18,7 +19,15 @@ export default function GuessGame() {
   const [score, setScore] = useState(0);
   const [post, setPost] = useState(false);
   const [scoreText, setScoreText] = useState("");
+  const [guessCount, setGuessCount] = useState(0);
+  const [gameStats, setGameStats] = useState({
+    gamesPlayed: 0,
+    gamesWon: 0,
+    totalGuesses: 0,
+    bestGuessCount: Infinity
+  });
   const navigate = useNavigate();
+  const { checkAchievements } = useAchievements();
 
   useEffect(() => {
     inputRef.current.focus(); // Focus input on mount
@@ -53,6 +62,12 @@ export default function GuessGame() {
 
   const handleCheck = () => {
     if (disabled) {
+      // Reset game stats for a new game
+      setGuessCount(0);
+      setGameStats(prev => ({
+        ...prev,
+        gamesPlayed: prev.gamesPlayed + 1
+      }));
       resetGame();
       return;
     }
@@ -60,8 +75,23 @@ export default function GuessGame() {
     let newChance;
     const inputValue = Number(inputRef.current.value);
     setPost(false);
+    
+    // Increment guess count for valid guesses
+    if (inputValue > 0 && inputValue <= 100) {
+      setGuessCount(prev => prev + 1);
+    }
 
     if (inputValue === randomNum) {
+      // Player won the game
+      const currentGuessCount = guessCount + 1;
+      const newGameStats = {
+        gamesPlayed: gameStats.gamesPlayed + 1,
+        gamesWon: gameStats.gamesWon + 1,
+        totalGuesses: gameStats.totalGuesses + currentGuessCount,
+        bestGuessCount: Math.min(gameStats.bestGuessCount, currentGuessCount)
+      };
+      
+      setGameStats(newGameStats);
       guessRef.current.textContent = "Congrats! You found the number.";
       guessRef.current.style.color = "#27ae60";
       setScore(score + 1);
@@ -71,6 +101,18 @@ export default function GuessGame() {
       newChance = chance;
       inputRef.current.disabled = true;
       setPost(true);
+      
+      // Check for achievements
+      checkAchievements("guess", {
+        guessCount: currentGuessCount,
+        correct: true,
+        distance: 0,
+        target: randomNum,
+        gamesPlayed: newGameStats.gamesPlayed,
+        gamesWon: newGameStats.gamesWon,
+        bestGuessCount: newGameStats.bestGuessCount
+      });
+      
     } else if (inputValue > randomNum && inputValue < 100) {
       guessRef.current.textContent = "Your guess is high";
       guessRef.current.style.color = "#333";
@@ -84,8 +126,18 @@ export default function GuessGame() {
       guessRef.current.style.color = "#e74c3c";
       newChance = chance;
     }
+    
     setChance(newChance);
-    chancesRef.current.textContent = newChance;    if (newChance === 0 && inputValue !== randomNum) {
+    chancesRef.current.textContent = newChance;
+    
+    if (newChance === 0 && inputValue !== randomNum) {
+      // Player lost the game
+      const newGameStats = {
+        ...gameStats,
+        gamesPlayed: gameStats.gamesPlayed + 1
+      };
+      
+      setGameStats(newGameStats);
       guessRef.current.textContent = "You lost the game";
       guessRef.current.style.color = "#e74c3c";
       setScore(0);
@@ -94,18 +146,46 @@ export default function GuessGame() {
       setDisabled(true);
       inputRef.current.disabled = true;
       setPost(true);
+      
+      // Check for achievements even on loss
+      checkAchievements("guess", {
+        guessCount: guessCount + 1,
+        correct: false,
+        distance: Math.abs(inputValue - randomNum),
+        target: randomNum,
+        gamesPlayed: newGameStats.gamesPlayed,
+        gamesWon: newGameStats.gamesWon
+      });
     }
   };
 
   const postScore = () => {
+    // Create metadata for the score post
+    const metadata = {
+      target: randomNum,
+      attempts: 10 - chance,
+      range: { min: 1, max: 100 },
+      guessCount: guessCount
+    };
+    
     createScorePost({
       value: score,
       text: scoreText,
       owner: cookies.user_id,
-      game: "guess"
+      game: "guess",
+      metadata: metadata
     })
       .then((response) => {
         if (response.data != null) {
+          // Check for achievements related to posting scores
+          checkAchievements("guess", {
+            ...metadata,
+            scorePosted: true,
+            scoreValue: score,
+            gamesPlayed: gameStats.gamesPlayed,
+            gamesWon: gameStats.gamesWon
+          });
+          
           alert("Successfully post score");
           setScore(0);
           navigate("/post");

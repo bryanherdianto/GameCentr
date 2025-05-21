@@ -6,6 +6,8 @@ import Game from "./pages/Game";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import Post from "./pages/Post";
+import Leaderboard from "./pages/Leaderboard";
+import Profile from "./pages/Profile";
 import PongGame from './pages/PongGame';
 import TypingGame from './pages/TypingGame';
 import SimonSays from './pages/SimonSays';
@@ -14,12 +16,13 @@ import WhackAMole from './pages/WhackAMole';
 import ColorGuess from './pages/ColorGuess';
 import PatternRepeater from './pages/PatternRepeater';
 import QuickMathChallenge from './pages/QuickMathChallenge';
+import { AchievementProvider } from './context/AchievementContext';
 
 export default function App() {
   const [cookies] = useCookies(['isLoggedIn']);
 
   return (
-    <>
+    <AchievementProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/signup" element={<SignUp />} />
@@ -36,9 +39,11 @@ export default function App() {
           <Route path="/game/patternrepeater" element={cookies.isLoggedIn ? <PatternRepeater /> : <Navigate to='/login' />} />
           <Route path="/game/quickmath" element={cookies.isLoggedIn ? <QuickMathChallenge /> : <Navigate to='/login' />} />
           <Route path="/post" element={cookies.isLoggedIn ? <Post /> : <Navigate to='/login' />} />
+          <Route path="/leaderboard" element={cookies.isLoggedIn ? <Leaderboard /> : <Navigate to='/login' />} />
+          <Route path="/profile" element={cookies.isLoggedIn ? <Profile /> : <Navigate to='/login' />} />
           <Route path="*" element={<Navigate to='/login' />} />
         </Routes>
       </BrowserRouter>
-    </>
+    </AchievementProvider>
   )
 }

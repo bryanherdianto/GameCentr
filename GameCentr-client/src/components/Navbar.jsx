@@ -36,6 +36,26 @@ export default function Navbar() {
                             >
                                 Scores
                             </NavLink>
+                            <NavLink
+                                to="/leaderboard"
+                                className={({ isActive }) =>
+                                    isActive
+                                        ? "px-3 py-2 rounded-md text-sm font-medium bg-indigo-900 text-white"
+                                        : "px-3 py-2 rounded-md text-sm font-medium text-indigo-200 hover:bg-indigo-700 hover:text-white"
+                                }
+                            >
+                                Leaderboards
+                            </NavLink>
+                            <NavLink
+                                to="/profile"
+                                className={({ isActive }) =>
+                                    isActive
+                                        ? "px-3 py-2 rounded-md text-sm font-medium bg-indigo-900 text-white"
+                                        : "px-3 py-2 rounded-md text-sm font-medium text-indigo-200 hover:bg-indigo-700 hover:text-white"
+                                }
+                            >
+                                Achievements
+                            </NavLink>
                         </div>
                     </div>
                     <div className="flex items-center">

@@ -15,15 +15,25 @@ import (
 )
 
 // GetAllScores retrieves all scores with populated owner and comments data
+// If gameCode is provided in the URL, it filters scores by that game
 func GetAllScores(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
+
+	// Check if game code is provided in the URL
+	gameCode := c.Param("gameCode")
+	
+	// Prepare filter
+	filter := bson.M{}
+	if gameCode != "" {
+		filter["game"] = gameCode
+	}
 
 	// Set options to sort by updatedAt in descending order (-1)
 	findOptions := options.Find()
 	findOptions.SetSort(bson.D{{Key: "updatedAt", Value: -1}})
 
-	cursor, err := db.ScoreColl.Find(ctx, bson.M{}, findOptions)
+	cursor, err := db.ScoreColl.Find(ctx, filter, findOptions)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"success": false,
@@ -81,8 +91,10 @@ func GetAllScores(c *gin.Context) {
 		scoresWithDetails = append(scoresWithDetails, models.ScoreWithUserDetails{
 			ID:        score.ID,
 			Owner:     owner.ToResponse(),
+			Game:      score.Game,
 			Value:     score.Value,
 			Text:      score.Text,
+			Metadata:  score.Metadata,
 			Comments:  commentsWithDetails,
 			CreatedAt: score.CreatedAt,
 			UpdatedAt: score.UpdatedAt,
@@ -169,8 +181,10 @@ func GetScoreById(c *gin.Context) {
 	scoreWithDetails := models.ScoreWithUserDetails{
 		ID:        score.ID,
 		Owner:     owner.ToResponse(),
+		Game:      score.Game,
 		Value:     score.Value,
 		Text:      score.Text,
+		Metadata:  score.Metadata,
 		Comments:  commentsWithDetails,
 		CreatedAt: score.CreatedAt,
 		UpdatedAt: score.UpdatedAt,
@@ -188,11 +202,15 @@ func PostScore(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
+	// Get game code from URL parameter if available
+	gameCode := c.Param("gameCode")
+
 	var scoreRequest struct {
-		Owner primitive.ObjectID `json:"owner" binding:"required"`
-		Game  string             `json:"game" binding:"required"`
-		Value int                `json:"value" binding:"required"`
-		Text  string             `json:"text"`
+		Owner    primitive.ObjectID      `json:"owner" binding:"required"`
+		Game     string                  `json:"game"`
+		Value    int                     `json:"value" binding:"required"`
+		Text     string                  `json:"text"`
+		Metadata map[string]interface{}  `json:"metadata,omitempty"`
 	}
 
 	if err := c.ShouldBindJSON(&scoreRequest); err != nil {
@@ -221,13 +239,29 @@ func PostScore(c *gin.Context) {
 		return
 	}
 
+	// Use game code from URL if provided, otherwise use from request body
+	game := gameCode
+	if game == "" {
+		game = scoreRequest.Game
+	}
+	
+	// Validate that we have a game code
+	if game == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"message": "Game code is required",
+		})
+		return
+	}
+
 	// Create score
 	now := time.Now()
 	score := models.Score{
 		Owner:     scoreRequest.Owner,
-		Game:      scoreRequest.Game,
+		Game:      game,
 		Value:     scoreRequest.Value,
 		Text:      scoreRequest.Text,
+		Metadata:  scoreRequest.Metadata,
 		Comments:  []primitive.ObjectID{},
 		CreatedAt: now,
 		UpdatedAt: now,
@@ -276,7 +310,7 @@ func AddCommentToScore(c *gin.Context) {
     ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
     defer cancel()
 
-    game := c.Param("game")
+    gameCode := c.Param("gameCode")
     scoreId := c.Param("scoreId")
     objectId, err := primitive.ObjectIDFromHex(scoreId)
     if err != nil {
@@ -310,7 +344,7 @@ func AddCommentToScore(c *gin.Context) {
 
     // Check if score exists and belongs to the correct game
     var score models.Score
-    err = db.ScoreColl.FindOne(ctx, bson.M{"_id": objectId, "game": game}).Decode(&score)
+    err = db.ScoreColl.FindOne(ctx, bson.M{"_id": objectId, "game": gameCode}).Decode(&score)
     if err != nil {
         c.JSON(http.StatusBadRequest, gin.H{
             "success": false,

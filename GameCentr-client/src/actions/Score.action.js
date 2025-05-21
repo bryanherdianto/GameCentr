@@ -62,6 +62,7 @@ export const getScoresByGame = async (game) => {
 // add comment to score post
 export const addComment = async (input) => {
     try {
+        const { game, scoreId, author, text } = input;
         const response = await axios.post(
             `${backend_URI}/game/${game}/score/${scoreId}/comment`,
             { author, text }
@@ -77,15 +78,91 @@ export const addComment = async (input) => {
 };
 
 // get global leaderboard
-export const getGlobalLeaderboard = async () => {
+export const getGlobalLeaderboard = async (options = {}) => {
     try {
+        const { limit = 10 } = options;
         const response = await axios.get(
-            `${backend_URI}/game/leaderboard`
+            `${backend_URI}/game/leaderboard?limit=${limit}`
         );
 
         console.log("Response from Backend");
         console.log(response.data);
         return baseApiResponse(response.data.data, true);
+    } catch (error) {
+        console.error(error);
+        return baseApiResponse(null, false);
+    }
+};
+
+// get game-specific leaderboard
+export const getGameLeaderboard = async (gameCode, options = {}) => {
+    try {
+        const { timeFrame = 'all', limit = 10 } = options;
+        const response = await axios.get(
+            `${backend_URI}/game/${gameCode}/leaderboard?timeFrame=${timeFrame}&limit=${limit}`
+        );
+
+        console.log("Response from Backend");
+        console.log(response.data);
+        return {
+            success: true,
+            data: response.data.data,
+            gameInfo: response.data.gameInfo,
+            stats: response.data.stats
+        };
+    } catch (error) {
+        console.error(error);
+        return baseApiResponse(null, false);
+    }
+};
+
+// get all game types
+export const getAllGameTypes = async () => {
+    try {
+        const response = await axios.get(
+            `${backend_URI}/game-types`
+        );
+
+        console.log("Response from Backend");
+        console.log(response.data);
+        return baseApiResponse(response.data.data, true);
+    } catch (error) {
+        console.error(error);
+        return baseApiResponse(null, false);
+    }
+};
+
+// get game type by code
+export const getGameTypeByCode = async (gameCode) => {
+    try {
+        const response = await axios.get(
+            `${backend_URI}/game-types/${gameCode}`
+        );
+
+        console.log("Response from Backend");
+        console.log(response.data);
+        return baseApiResponse(response.data.data, true);
+    } catch (error) {
+        console.error(error);
+        return baseApiResponse(null, false);
+    }
+};
+
+// get user game stats
+export const getUserGameStats = async (userId) => {
+    try {
+        const response = await axios.get(
+            `${backend_URI}/user/${userId}/stats`
+        );
+
+        console.log("Response from Backend");
+        console.log(response.data);
+        return {
+            success: true,
+            user: response.data.user,
+            overall: response.data.overall,
+            games: response.data.games
+        };
     } catch (error) {
         console.error(error);
         return baseApiResponse(null, false);
