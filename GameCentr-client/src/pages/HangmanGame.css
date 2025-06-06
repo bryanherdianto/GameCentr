@@ -28,33 +28,6 @@
     border-bottom: 2px solid green;
 }
 
-.keyboard {
-    margin: 20px;
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 10px;
-}
-
-.keyboard button {
-    font-size: 18px;
-    padding: 10px 15px;
-    background-color: #4c8eaf;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.keyboard button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.keyboard button:hover {
-    background-color: #95e1fd;
-}
-
 .result-message {
     font-size: 24px;
     font-weight: bold;

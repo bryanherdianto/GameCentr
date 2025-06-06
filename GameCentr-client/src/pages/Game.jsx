@@ -120,17 +120,8 @@ function Game() {
                                                 : <span className="text-4xl">{game.icon}</span>
                                             }
                                         </div>
-                                        {isColorGuess ? (
-                                            <div className="bg-white rounded-xl p-3 mb-2">
-                                                <h3 className="text-2xl font-bold text-gray-900 mb-1">{game.title}</h3>
-                                                <p className="text-gray-700 text-opacity-90 mb-0">{game.description}</p>
-                                            </div>
-                                        ) : (
-                                            <>
-                                                <h3 className="text-2xl font-bold text-white mb-2">{game.title}</h3>
-                                                <p className="text-white text-opacity-80 mb-6 flex-grow">{game.description}</p>
-                                            </>
-                                        )}
+                                        <h3 className="text-2xl font-bold text-white mb-2">{game.title}</h3>
+                                        <p className="text-white text-opacity-80 mb-6 flex-grow">{game.description}</p>
                                         <div className="bg-white bg-opacity-20 py-2 px-4 rounded-lg inline-flex items-center justify-center text-gray-900 font-medium">
                                             Play Now
                                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">

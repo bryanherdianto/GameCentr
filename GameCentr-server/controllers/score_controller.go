@@ -108,6 +108,87 @@ func GetAllScores(c *gin.Context) {
 	})
 }
 
+func GetAllGameScores(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	// Set options to sort by updatedAt in descending order (-1)
+	findOptions := options.Find()
+	findOptions.SetSort(bson.D{{Key: "updatedAt", Value: -1}})
+
+	cursor, err := db.ScoreColl.Find(ctx, bson.M{}, findOptions)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"success": false,
+			"message": err.Error(),
+		})
+		return
+	}
+	defer cursor.Close(ctx)
+
+	var scores []models.Score
+	if err := cursor.All(ctx, &scores); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"success": false,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	var scoresWithDetails []models.ScoreWithUserDetails
+	for _, score := range scores {
+		// Populate owner
+		var owner models.User
+		err := db.UserColl.FindOne(ctx, bson.M{"_id": score.Owner}).Decode(&owner)
+		if err != nil {
+			continue // Skip if owner not found
+		}
+
+		// Populate comments
+		var commentsWithDetails []models.CommentWithUserDetails
+		if len(score.Comments) > 0 {
+			commentsCursor, err := db.CommentColl.Find(ctx, bson.M{"_id": bson.M{"$in": score.Comments}})
+			if err == nil {
+				var comments []models.Comment
+				if err := commentsCursor.All(ctx, &comments); err == nil {
+					commentsCursor.Close(ctx)
+
+					for _, comment := range comments {
+						var commentAuthor models.User
+						err := db.UserColl.FindOne(ctx, bson.M{"_id": comment.Author}).Decode(&commentAuthor)
+						if err == nil {
+							commentsWithDetails = append(commentsWithDetails, models.CommentWithUserDetails{
+								ID:        comment.ID,
+								Score:     comment.Score,
+								Author:    commentAuthor.ToResponse(),
+								Text:      comment.Text,
+								CreatedAt: comment.CreatedAt,
+								UpdatedAt: comment.UpdatedAt,
+							})
+						}
+					}
+				}
+			}
+		}
+
+		scoresWithDetails = append(scoresWithDetails, models.ScoreWithUserDetails{
+			ID:        score.ID,
+			Owner:     owner.ToResponse(),
+			Value:     score.Value,
+			Text:      score.Text,
+			Comments:  commentsWithDetails,
+			CreatedAt: score.CreatedAt,
+			UpdatedAt: score.UpdatedAt,
+		})
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"success": true,
+		"message": "Successfully retrieved all scores",
+		"data":    scoresWithDetails,
+	})
+}
+
 // GetScoreById retrieves a single score by ID with populated data
 func GetScoreById(c *gin.Context) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)

@@ -15,7 +15,7 @@ export default function Leaderboard() {
     const [limit, setLimit] = useState(10);
     const [loading, setLoading] = useState(false);
     const [viewMode, setViewMode] = useState("game"); // "game" or "global"
-    
+
     // Score filtering
     const [minScore, setMinScore] = useState("");
     const [maxScore, setMaxScore] = useState("");
@@ -117,27 +117,27 @@ export default function Leaderboard() {
     // Filter the leaderboard data based on score filters
     const filteredData = leaderboardData.filter(entry => {
         let passesFilter = true;
-        
+
         if (useMinScore && minScore !== "") {
             passesFilter = passesFilter && entry.score >= parseInt(minScore);
         }
-        
+
         if (useMaxScore && maxScore !== "") {
             passesFilter = passesFilter && entry.score <= parseInt(maxScore);
         }
-        
+
         return passesFilter;
     });
 
     // Sort the filtered leaderboard data
     const sortedData = [...filteredData].sort((a, b) => {
         let valueA, valueB;
-        
+
         if (sortField === "user") {
             valueA = a.user.username.toLowerCase();
             valueB = b.user.username.toLowerCase();
-            return sortDirection === "asc" 
-                ? valueA.localeCompare(valueB) 
+            return sortDirection === "asc"
+                ? valueA.localeCompare(valueB)
                 : valueB.localeCompare(valueA);
         } else if (sortField === "score") {
             valueA = a.score;
@@ -159,30 +159,28 @@ export default function Leaderboard() {
             <Navbar />
             <div className="min-h-screen bg-gradient-to-b from-blue-900 to-indigo-900 py-12 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-5xl mx-auto">
-                    <h1 className="text-3xl font-bold text-center text-white mb-8">Game Leaderboards</h1>
+                    <h1 className="text-3xl font-bold text-center text-white mb-8">Leaderboards</h1>
 
                     {/* View Mode Selector */}
-                    <div className="bg-white rounded-xl shadow-md p-4 mb-4">
+                    <div className="bg-white rounded-xl shadow-md p-4">
                         <div className="flex justify-center space-x-4">
                             <button
                                 onClick={() => setViewMode("game")}
-                                className={`px-4 py-2 rounded-md ${
-                                    viewMode === "game"
+                                className={`px-4 py-2 rounded-md ${viewMode === "game"
                                         ? "bg-indigo-600 text-white"
                                         : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                                }`}
+                                    }`}
                             >
-                                Game Leaderboards
+                                Game
                             </button>
                             <button
                                 onClick={() => setViewMode("global")}
-                                className={`px-4 py-2 rounded-md ${
-                                    viewMode === "global"
+                                className={`px-4 py-2 rounded-md ${viewMode === "global"
                                         ? "bg-indigo-600 text-white"
                                         : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                                }`}
+                                    }`}
                             >
-                                Global Leaderboard
+                                Global
                             </button>
                         </div>
 
@@ -200,14 +198,14 @@ export default function Leaderboard() {
                                         className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                                     />
                                     <label htmlFor="useMinScore" className="text-sm text-gray-700">
-                                        Score Greater Than
+                                        Greater Than
                                     </label>
                                     <input
                                         type="number"
                                         value={minScore}
                                         onChange={(e) => setMinScore(e.target.value)}
                                         disabled={!useMinScore}
-                                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50"
+                                        className="p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50"
                                         placeholder="Min score"
                                     />
                                 </div>
@@ -222,14 +220,14 @@ export default function Leaderboard() {
                                         className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                                     />
                                     <label htmlFor="useMaxScore" className="text-sm text-gray-700">
-                                        Score Less Than
+                                        Less Than
                                     </label>
                                     <input
                                         type="number"
                                         value={maxScore}
                                         onChange={(e) => setMaxScore(e.target.value)}
                                         disabled={!useMaxScore}
-                                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50"
+                                        className="p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm disabled:opacity-50"
                                         placeholder="Max score"
                                     />
                                 </div>
@@ -238,7 +236,7 @@ export default function Leaderboard() {
                     </div>
 
                     {/* Filters and Controls */}
-                    <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+                    <div className="mt-8 bg-white rounded-xl shadow-md p-6 mb-8">
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                             {/* Game Type Selector - Only show in game mode */}
                             {viewMode === "game" && (
@@ -250,7 +248,7 @@ export default function Leaderboard() {
                                         id="gameType"
                                         value={selectedGame}
                                         onChange={handleGameChange}
-                                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                        className="p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                     >
                                         {gameTypes.map((game) => (
                                             <option key={game.game_code} value={game.game_code}>
@@ -271,7 +269,7 @@ export default function Leaderboard() {
                                         id="timeFrame"
                                         value={timeFrame}
                                         onChange={handleTimeFrameChange}
-                                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                        className="p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                     >
                                         <option value="all">All Time</option>
                                         <option value="daily">Today</option>
@@ -294,7 +292,7 @@ export default function Leaderboard() {
                                     id="limit"
                                     value={limit}
                                     onChange={handleLimitChange}
-                                    className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    className="p-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                 >
                                     <option value={5}>5</option>
                                     <option value={10}>10</option>
@@ -470,10 +468,8 @@ export default function Leaderboard() {
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                                     <div className="flex items-center">
-                                                        <div className="ml-4">
-                                                            <div className="text-sm font-medium text-gray-900">
-                                                                {entry.user.username}
-                                                            </div>
+                                                        <div className="text-sm font-medium text-gray-900">
+                                                            {entry.user.username}
                                                         </div>
                                                     </div>
                                                 </td>

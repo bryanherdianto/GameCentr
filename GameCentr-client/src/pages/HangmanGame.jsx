@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import HangmanCanvas from "./HangmanCanvas";
 import "./HangmanGame.css";
 import Navbar from '../components/Navbar';
@@ -12,7 +12,6 @@ const HangmanGame = () => {
     const [word, setWord] = useState("");
     const [guessedLetters, setGuessedLetters] = useState([]);
     const [mistakes, setMistakes] = useState(0);
-    const [post, setPost] = useState(false);
     const [scorePosted, setScorePosted] = useState(false);
     const [cookies] = useCookies(["user_id"]);
 
@@ -92,7 +91,7 @@ const HangmanGame = () => {
                         </span>
                     ))}
                 </div>
-                <div className="keyboard">
+                <div className="m-5 grid grid-cols-3 sm:grid-cols-7 gap-2.5">
                     {Array.from(Array(26)).map((_, index) => (
                         <button
                             key={index}
@@ -102,6 +101,7 @@ const HangmanGame = () => {
                             disabled={guessedLetters.includes(
                                 String.fromCharCode(65 + index)
                             ) || isGameWon() || isGameLost()}
+                            className="text-lg px-3.5 bg-blue-500 text-white border-none rounded hover:bg-blue-400 transition-all duration-300 ease-in-out disabled:bg-gray-400 disabled:cursor-not-allowed"
                         >
                             {String.fromCharCode(65 + index)}
                         </button>

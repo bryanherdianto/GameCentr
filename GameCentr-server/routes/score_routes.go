@@ -11,7 +11,7 @@ func SetupScoreRoutes(router *gin.Engine) {
 	scoreGroup := router.Group("/score")
 	{
 		// Get all scores
-		scoreGroup.GET("", controllers.GetAllScores)
+		scoreGroup.GET("", controllers.GetAllGameScores)
 
 		// Get score by ID
 		scoreGroup.GET("/:scoreId", controllers.GetScoreById)

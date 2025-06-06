@@ -49,14 +49,10 @@ func main() {
 	routes.SetupGameScoreRoutes(router)
 	routes.SetupUserRoutes(router)
 	routes.SetupAchievementRoutes(router)
-	// routes.SetupScoreRoutes(router)
-
+	routes.SetupScoreRoutes(router)
 
 	// Get port from environment variable or use default
 	port := os.Getenv("PORT")
-	if port == "" {
-		port = "5000" // Default port matches the Node server
-	}
 
 	// Start server in a goroutine
 	go func() {
