@@ -50,6 +50,13 @@ Whether you're here for a quick break or a longer gaming session, GameCentr has 
 
 ## Setup Instructions
 
+Before you start, ensure you prepare a .env file in the root directory of the project with the following content:
+
+```env
+MONGODB_URI={your_mongodb_uri}
+PORT=8080
+```
+
 This project is built using Docker, so you need to have Docker installed on your machine. Follow these steps to set up the project:
 
 ```bash
