@@ -1,5 +1,7 @@
 # GameCentr
 
+![picture 0](https://i.imgur.com/uchihZY.png)  
+
 <p align="center">
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License" />
   <img src="https://img.shields.io/badge/version-v1.0.0-blue" alt="Version" />
@@ -7,6 +9,7 @@
 </p>
 
 ## About GameCentr
+
 GameCentr is your ultimate destination for fun and excitement. Designed to be user-friendly and easy to navigate, this game center offers a variety of games to challenge your skills and keep you entertained. As a player, you can enjoy:
 
 🎯 **Random Number Guesser** – Test your luck and intuition.  
@@ -23,6 +26,7 @@ GameCentr is your ultimate destination for fun and excitement. Designed to be us
 Whether you're here for a quick break or a longer gaming session, GameCentr has something for everyone!
 
 ## Tech Stack
+
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
@@ -33,17 +37,31 @@ Whether you're here for a quick break or a longer gaming session, GameCentr has 
 ![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
 
 ## Local Architecture
+
 ![local drawio](https://github.com/user-attachments/assets/6e1f3cdd-e9cc-43df-ab5f-5532bc391d85)
 
 ## Remote Architecture
+
 ![remote drawio](https://github.com/user-attachments/assets/02f0a90c-ff99-44b4-bde6-6cba53c6e6eb)
 
 ## Docker Architecture
+
 ![docker drawio](https://github.com/user-attachments/assets/f6124063-c851-45cd-b52b-bf7b49c88a7c)
 
+## Setup Instructions
+
+This project is built using Docker, so you need to have Docker installed on your machine. Follow these steps to set up the project:
+
+```bash
+git clone https://github.com/bryanherdianto/GameCentr.git
+cd GameCentr
+docker-compose up -d --build
+```
+
 ## Referensi
-- GeeksforGeeks, “Design a typing speed test game using JavaScript,” GeeksforGeeks, Jul. 29, 2024. https://www.geeksforgeeks.org/design-a-typing-speed-test-game-using-javascript/
-- GeeksforGeeks, “Ping Pong Game using React,” GeeksforGeeks, Jul. 23, 2024. https://www.geeksforgeeks.org/ping-pong-game-using-react/
-- GeeksforGeeks, “Hangman game using React,” GeeksforGeeks, Jul. 25, 2024. https://www.geeksforgeeks.org/hangman-game-using-react/
-- GeeksforGeeks, “Architecture of Docker,” GeeksforGeeks, Jan. 04, 2025. https://www.geeksforgeeks.org/architecture-of-docker/
-- M. D. Team, “Go Driver Quick start,” Go Driver v2.2 - MongoDB Docs. https://www.mongodb.com/docs/drivers/go/current/quick-start/
+
+- GeeksforGeeks, “Design a typing speed test game using JavaScript,” GeeksforGeeks, Jul. 29, 2024. <https://www.geeksforgeeks.org/design-a-typing-speed-test-game-using-javascript/>
+- GeeksforGeeks, “Ping Pong Game using React,” GeeksforGeeks, Jul. 23, 2024. <https://www.geeksforgeeks.org/ping-pong-game-using-react/>
+- GeeksforGeeks, “Hangman game using React,” GeeksforGeeks, Jul. 25, 2024. <https://www.geeksforgeeks.org/hangman-game-using-react/>
+- GeeksforGeeks, “Architecture of Docker,” GeeksforGeeks, Jan. 04, 2025. <https://www.geeksforgeeks.org/architecture-of-docker/>
+- M. D. Team, “Go Driver Quick start,” Go Driver v2.2 - MongoDB Docs. <https://www.mongodb.com/docs/drivers/go/current/quick-start/>
