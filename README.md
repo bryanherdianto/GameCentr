@@ -3,7 +3,6 @@
 ![picture 0](https://i.imgur.com/uchihZY.png)  
 
 <p align="center">
-  <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License" />
   <img src="https://img.shields.io/badge/version-v1.0.0-blue" alt="Version" />
   <img src="https://img.shields.io/badge/build-passed-brightgreen" alt="Build Status" />
 </p>
@@ -24,6 +23,12 @@ GameCentr is your ultimate destination for fun and excitement. Designed to be us
 ➕ **Quick Math Challenge** – Solve math problems under pressure.  
 
 Whether you're here for a quick break or a longer gaming session, GameCentr has something for everyone!
+
+## Meet Our Developers
+
+* **Bryan Herdianto** – 2306210885, Computer Engineering
+* **Jeremy Wijanarko Mulyono** – 2306267132, Computer Engineering
+* **Adrian Dika Darmawan** – 2306250711, Computer Engineering
 
 ## Tech Stack
 
@@ -65,7 +70,7 @@ cd GameCentr
 docker-compose up -d --build
 ```
 
-## Referensi
+## References
 
 - GeeksforGeeks, “Design a typing speed test game using JavaScript,” GeeksforGeeks, Jul. 29, 2024. <https://www.geeksforgeeks.org/design-a-typing-speed-test-game-using-javascript/>
 - GeeksforGeeks, “Ping Pong Game using React,” GeeksforGeeks, Jul. 23, 2024. <https://www.geeksforgeeks.org/ping-pong-game-using-react/>
